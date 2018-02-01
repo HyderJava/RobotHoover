@@ -13,13 +13,14 @@ public class Hoover {
 	private static final Character SOUTH = 'S';
 	private static final Character WEST = 'W';
 
-	private final Room room;
-	private final Point startingPoint;
+	private Room room;
+	private Point currentPoint;
+	private int numOfPatchesCleaned;
 
-	public Hoover(Room room, Point startingPoint) {
+	public Hoover(Point startingPoint, Room room) {
 
+		this.currentPoint = startingPoint;
 		this.room = room;
-		this.startingPoint = startingPoint;
 	}
 
 	public void runInstructions(List<Character> instructionList) {
@@ -41,32 +42,68 @@ public class Hoover {
 
 	};
 
-	private Point moveNorth() {
-		System.out.println("Move north");
-		return null;
+	public Point moveNorth() {
+
+		if (currentPoint.y < room.getNorthPerimeter()) {
+			currentPoint.y++;
+			if (isPatchCleaned()) {
+				numOfPatchesCleaned++;
+			}
+		}
+		return currentPoint;
 	}
 
-	private Point moveEast() {
-		System.out.println("Move east");
-		return null;
+	public Point moveSouth() {
+
+		if (currentPoint.y > room.getSouthPerimeter()) {
+			currentPoint.y--;
+			if (isPatchCleaned()) {
+				numOfPatchesCleaned++;
+			}
+		}
+
+		return currentPoint;
 	}
 
-	private Point moveSouth() {
-		System.out.println("Move south");
-		return null;
+	public Point moveWest() {
+
+		if (currentPoint.x > room.getWestPerimeter()) {
+			currentPoint.x--;
+			if (isPatchCleaned()) {
+				numOfPatchesCleaned++;
+			}
+		}
+		return currentPoint;
+
 	}
 
-	private Point moveWest() {
-		System.out.println("Move west");
-		return null;
+	public Point moveEast() {
+
+		if (currentPoint.x < room.getEastPerimeter()) {
+			currentPoint.x++;
+			if (isPatchCleaned()) {
+				numOfPatchesCleaned++;
+			}
+		}
+
+		return currentPoint;
 	}
 
-	public Room getRoom() {
-		return room;
+	public Point getCurrentPoint() {
+		return currentPoint;
 	}
 
-	public Point getStartingPoint() {
-		return startingPoint;
+	private Boolean isPatchCleaned() {
+
+		if (room.getPatches().stream().anyMatch(patch -> patch.equals(currentPoint))) {
+			room.getPatches().remove(currentPoint);
+			return true;
+		}
+		return false;
+	}
+
+	public int getNumOfPatchesCleaned() {
+		return numOfPatchesCleaned;
 	}
 
 }

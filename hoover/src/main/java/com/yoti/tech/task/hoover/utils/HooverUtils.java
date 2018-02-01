@@ -2,10 +2,13 @@ package com.yoti.tech.task.hoover.utils;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
-import com.yoti.tech.task.hoover.error_handling.PatchesOutOfBoundsException;
+import com.yoti.tech.task.hoover.error_handling.exceptions.CoordinatesOutOfBoundsException;
+import com.yoti.tech.task.hoover.error_handling.exceptions.PatchesOutOfBoundsException;
 
 public class HooverUtils {
 
@@ -22,19 +25,33 @@ public class HooverUtils {
 		return instructionList;
 	}
 
-	public static List<Point> getPointList(int[][] patches, int[] roomSize) throws PatchesOutOfBoundsException {
+	public static Set<Point> getPatchesSet(int[][] patches, int[] roomSize) throws PatchesOutOfBoundsException {
 
-		List<Point> coords = new ArrayList<Point>(patches.length);
-
+		Set<Point> coords = new HashSet<Point>(patches.length);
 		for (int i = 0; i < patches.length; i++) {
 
 			if (patches[i][X] > roomSize[X] || patches[i][Y] > roomSize[Y]) {
 
-				throw new PatchesOutOfBoundsException("Patches must be inside the room");
+				throw new PatchesOutOfBoundsException();
 			}
 			coords.add(new Point(patches[i][X], patches[i][Y]));
 		}
 		return coords;
 
+	}
+
+	public static Point getStartPoint(int[] roomSize, int[] startingPoint) throws CoordinatesOutOfBoundsException {
+
+		if (0 > roomSize[X] || 0 > roomSize[Y] || roomSize[X] < startingPoint[X] || roomSize[Y] < startingPoint[Y]) {
+
+			throw new CoordinatesOutOfBoundsException();
+		}
+
+		return new Point(startingPoint[X], startingPoint[Y]);
+	}
+
+	public static Point getRoomSize(int[] roomSize) {
+
+		return new Point(roomSize[X], roomSize[Y]);
 	}
 }

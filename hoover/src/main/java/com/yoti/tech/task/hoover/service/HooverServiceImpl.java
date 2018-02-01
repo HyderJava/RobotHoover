@@ -3,10 +3,12 @@ package com.yoti.tech.task.hoover.service;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import com.yoti.tech.task.hoover.error_handling.PatchesOutOfBoundsException;
+import com.yoti.tech.task.hoover.error_handling.exceptions.CoordinatesOutOfBoundsException;
+import com.yoti.tech.task.hoover.error_handling.exceptions.PatchesOutOfBoundsException;
 import com.yoti.tech.task.hoover.model.Hoover;
 import com.yoti.tech.task.hoover.model.Room;
 import com.yoti.tech.task.hoover.rest.Request;
@@ -17,26 +19,23 @@ import com.yoti.tech.task.hoover.utils.HooverUtils;
 public class HooverServiceImpl implements HooverService {
 
 	@Override
-	public Response cleanPatches(Request request) throws PatchesOutOfBoundsException {
+	public Response cleanPatches(Request request) throws PatchesOutOfBoundsException, CoordinatesOutOfBoundsException {
 
-		// Convert the request object into suitable data structures
-		List<Point> patches = HooverUtils.getPointList(request.getPatches(), request.getRoomSize());
+		// Convert the request object into suitable data structures & validate context (room size & starting point)
+		Set<Point> patches = HooverUtils.getPatchesSet(request.getPatches(), request.getRoomSize());
 		List<Character> instructionList = HooverUtils.stringToList(request.getInstructions());
-		
-		//get coords
+		Point startingPoint = HooverUtils.getStartPoint(request.getRoomSize(), request.getCoords());
+		Point roomSize = HooverUtils.getRoomSize(request.getRoomSize());
 		// Instantiate a new hoover and room object
-		Room room = new Room(); // TODO
-		Hoover hoover = new Hoover(room, null);
+		Room room = new Room(patches, roomSize);
+		Hoover hoover = new Hoover(startingPoint, room);
 		// Execute the instructions
 		hoover.runInstructions(instructionList);
-
-		// TODO
-		// ERROR MESSAGES
-		// COMPLETE LOGIC
-
-		// Execute the instructions
-
-		return null;
+		// form response
+		Response response = new Response();
+		response.setCoords(new int[]{hoover.getCurrentPoint().x, hoover.getCurrentPoint().y});
+		response.setPatches(hoover.getNumOfPatchesCleaned());
+		return response;
 	}
 
 }

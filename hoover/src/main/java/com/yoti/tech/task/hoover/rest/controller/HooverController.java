@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yoti.tech.task.hoover.error_handling.PatchesOutOfBoundsException;
+import com.yoti.tech.task.hoover.error_handling.exceptions.CoordinatesOutOfBoundsException;
+import com.yoti.tech.task.hoover.error_handling.exceptions.PatchesOutOfBoundsException;
 import com.yoti.tech.task.hoover.rest.Request;
 import com.yoti.tech.task.hoover.rest.Response;
 import com.yoti.tech.task.hoover.service.HooverServiceImpl;
@@ -24,7 +25,7 @@ public class HooverController {
 	HooverServiceImpl hooverService;
 
 	@PostMapping(value = "/position", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> hooverPosition(@Valid @RequestBody Request request) throws PatchesOutOfBoundsException {
+	public ResponseEntity<?> hooverPosition(@Valid @RequestBody Request request) throws PatchesOutOfBoundsException, CoordinatesOutOfBoundsException {
 		Response response = hooverService.cleanPatches(request);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
