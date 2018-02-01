@@ -36,12 +36,17 @@ Body:
 Positives:
 
 Custom validaton annotations
+
 Custom global error handling
+
 Custom exceptions
+
 Formatted customised error response
 
 TODO:
 
 integration tests
+
 unit tests
+
 swagger api documentation
