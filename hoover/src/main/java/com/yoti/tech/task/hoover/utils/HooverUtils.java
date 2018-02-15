@@ -1,10 +1,8 @@
 package com.yoti.tech.task.hoover.utils;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -12,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import com.yoti.tech.task.hoover.error_handling.exceptions.CoordinatesOutOfBoundsException;
 import com.yoti.tech.task.hoover.error_handling.exceptions.PatchesOutOfBoundsException;
-import com.yoti.tech.task.hoover.service.HooverServiceImpl;
 
 public class HooverUtils {
 	
@@ -36,7 +33,7 @@ public class HooverUtils {
 
 		Set<Point> coords = new HashSet<Point>(patches.length);
 		for (int i = 0; i < patches.length; i++) {
-
+			
 			if (patches[i][X] > roomSize[X] || patches[i][Y] > roomSize[Y]) {
 
 				logger.error("Patches are not valid coordinates inside the perimeter of the room");

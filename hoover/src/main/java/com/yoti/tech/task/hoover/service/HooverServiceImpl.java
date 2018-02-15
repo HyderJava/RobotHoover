@@ -1,7 +1,6 @@
 package com.yoti.tech.task.hoover.service;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +14,6 @@ import com.yoti.tech.task.hoover.model.Hoover;
 import com.yoti.tech.task.hoover.model.Room;
 import com.yoti.tech.task.hoover.rest.Request;
 import com.yoti.tech.task.hoover.rest.Response;
-import com.yoti.tech.task.hoover.rest.controller.HooverController;
 import com.yoti.tech.task.hoover.utils.HooverUtils;
 
 @Service

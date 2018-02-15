@@ -34,6 +34,7 @@ public class PatchesValidator implements ConstraintValidator<PatchesConstraint, 
 				logger.error("Invalid request: Patches is not a coordinate of size 2 (X,Y)");
 				return false;
 			}
+			//
 		}
 		return true;
 	}
